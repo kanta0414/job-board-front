@@ -25,20 +25,20 @@ export default function Pagination(props: {
   if (end < totalPages) pages.push(totalPages)
 
   return (
-    <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+    <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm text-gray-700">
       <button
         type="button"
-        className="rounded-md border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded border border-gray-300 bg-white px-2 py-1 disabled:cursor-not-allowed disabled:opacity-50"
         onClick={() => onPageChange(safePage - 1)}
         disabled={safePage <= 1}
       >
-        前へ
+        ◀
       </button>
 
       <div className="flex items-center gap-1">
         {pages.map((p, idx) =>
           p === 'ellipsis' ? (
-            <span key={`e-${idx}`} className="px-2 text-sm text-gray-500">
+            <span key={`e-${idx}`} className="px-2 text-gray-500">
               …
             </span>
           ) : (
@@ -47,8 +47,8 @@ export default function Pagination(props: {
               type="button"
               onClick={() => onPageChange(p)}
               className={[
-                'rounded-md border px-3 py-1 text-sm',
-                p === safePage ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50',
+                'rounded border px-2 py-1',
+                p === safePage ? 'border-gray-400 bg-gray-100' : 'border-gray-300 bg-white hover:bg-gray-50',
               ].join(' ')}
             >
               {p}
@@ -59,11 +59,11 @@ export default function Pagination(props: {
 
       <button
         type="button"
-        className="rounded-md border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded border border-gray-300 bg-white px-2 py-1 disabled:cursor-not-allowed disabled:opacity-50"
         onClick={() => onPageChange(safePage + 1)}
         disabled={safePage >= totalPages}
       >
-        次へ
+        ▶
       </button>
     </div>
   )

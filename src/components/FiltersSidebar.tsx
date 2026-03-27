@@ -20,13 +20,12 @@ export default function FiltersSidebar(props: {
   } = props
 
   return (
-    <aside className="w-[300px] shrink-0 border-r border-gray-200 bg-white">
+    <aside className="w-[260px] shrink-0 border-r border-gray-200 bg-slate-100">
       <div className="p-4">
-        <h2 className="mb-4 text-base font-semibold text-gray-900">フィルター</h2>
+        <h2 className="mb-3 text-sm font-semibold text-gray-900">求人カテゴリ</h2>
 
-        <div className="mb-6">
-          <div className="mb-2 text-sm font-medium text-gray-800">求人カテゴリ</div>
-          <div className="max-h-[45vh] space-y-2 overflow-auto pr-1">
+        <div className="mb-5">
+          <div className="max-h-[52vh] space-y-1 overflow-auto pr-1">
             {categories.map((cat) => {
               const checked = selectedCategories.includes(cat)
               const id = `cat-${cat}`
@@ -35,7 +34,7 @@ export default function FiltersSidebar(props: {
                   <input
                     id={id}
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-4 w-4 rounded border-gray-300 text-slate-700 focus:ring-slate-500"
                     checked={checked}
                     onChange={() => onToggleCategory(cat)}
                   />
@@ -50,9 +49,9 @@ export default function FiltersSidebar(props: {
         </div>
 
         <div>
-          <div className="mb-2 text-sm font-medium text-gray-800">年収（万円）</div>
+          <div className="mb-2 text-sm font-semibold text-gray-900">年収</div>
           <select
-            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-slate-200"
             value={minSalaryOption === null ? '' : String(minSalaryOption)}
             onChange={(e) => {
               const raw = e.target.value

@@ -6,19 +6,9 @@ import Pagination from '../components/Pagination'
 import TopNav from '../components/TopNav'
 import type { Job, JobCategory } from '../api/jobApi'
 import { fetchCategories, fetchJobs } from '../api/jobApi'
+import { JOB_CATEGORY_ORDER, sortJobCategories } from '../constants/jobCategories'
 
-const DEFAULT_CATEGORIES: JobCategory[] = [
-  '事務',
-  'エンジニア',
-  '営業',
-  'マーケティング',
-  'デザイン',
-  '教育・講師',
-  '医療・福祉',
-  '保育士',
-  '接客・販売',
-  '物流・軽作業',
-]
+const DEFAULT_CATEGORIES: JobCategory[] = JOB_CATEGORY_ORDER
 
 const SALARY_OPTIONS: Array<{ value: number | null; label: string }> = [
   { value: null, label: '指定なし' },
@@ -77,7 +67,7 @@ export default function JobListPage() {
       setCategoriesLoading(true)
       try {
         const cats = await fetchCategories(controller.signal)
-        if (cats.length > 0) setCategories(cats)
+        if (cats.length > 0) setCategories(sortJobCategories(cats))
       } catch {
         // keep defaults if backend doesn't support categories endpoint
       } finally {
@@ -121,9 +111,6 @@ export default function JobListPage() {
           signal: controller.signal,
         })
         setJobs(res.jobs)
-        
-        console.log(res);
-        console.log(jobs);
         setTotalPages(res.totalPages)
       } catch (e) {
         if (controller.signal.aborted) return
@@ -131,8 +118,6 @@ export default function JobListPage() {
         setJobs([])
         setTotalPages(1)
       } finally {
-        
-        
         if (!controller.signal.aborted) setLoading(false)
       }
     })()
@@ -141,11 +126,11 @@ export default function JobListPage() {
   }, [selectedCategories, minSalaryOption, page])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <TopNav />
 
-      <main className="mx-auto w-full max-w-[1126px] px-4 py-6">
-        <div className="flex items-start gap-6">
+      <main className="px-0 py-0">
+        <div className="flex items-stretch gap-0">
           <FiltersSidebar
             categories={categories}
             selectedCategories={selectedCategories}
@@ -155,12 +140,11 @@ export default function JobListPage() {
             onMinSalaryChange={onMinSalaryChange}
           />
 
-          <section className="min-w-0 flex-1">
+          <section className="min-w-0 flex-1 bg-white px-6 py-5">
             <div className="mb-4">
-              <h1 className="text-xl font-semibold text-gray-900">求人一覧</h1>
-              <div className="mt-1 text-sm text-gray-600">
-                {selectedCategories.length > 0 ? `カテゴリ: ${selectedCategories.join(', ')}` : '全カテゴリ'}
-                {minSalaryOption ? ` / 年収 >= ${minSalaryOption}万円` : ''}
+              <h1 className="text-lg font-semibold text-gray-900">求人一覧</h1>
+              <div className="mt-1 text-xs text-gray-600">
+                総件数: {jobs.length}件
               </div>
             </div>
 
