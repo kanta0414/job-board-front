@@ -58,6 +58,7 @@ export default function JobListPage() {
 
   const [jobs, setJobs] = useState<Job[]>([])
   const [totalPages, setTotalPages] = useState(1)
+  const [totalJobCount, setTotalJobCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -112,11 +113,19 @@ export default function JobListPage() {
         })
         setJobs(res.jobs)
         setTotalPages(res.totalPages)
+        if (typeof res.totalCount === 'number') {
+          setTotalJobCount(res.totalCount)
+        } else if (res.totalPages > 0 && res.page === res.totalPages) {
+          setTotalJobCount((res.totalPages - 1) * res.perPage + res.jobs.length)
+        } else {
+          setTotalJobCount(res.jobs.length)
+        }
       } catch (e) {
         if (controller.signal.aborted) return
         setError(e instanceof Error ? e.message : String(e))
         setJobs([])
         setTotalPages(1)
+        setTotalJobCount(0)
       } finally {
         if (!controller.signal.aborted) setLoading(false)
       }
@@ -126,11 +135,11 @@ export default function JobListPage() {
   }, [selectedCategories, minSalaryOption, page])
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="flex min-h-screen flex-col bg-white">
       <TopNav />
 
-      <main className="px-0 py-0">
-        <div className="flex items-stretch gap-0">
+      <main className="flex min-h-0 flex-1 flex-col px-0 py-0">
+        <div className="flex min-h-0 flex-1 items-stretch gap-0">
           <FiltersSidebar
             categories={categories}
             selectedCategories={selectedCategories}
@@ -144,7 +153,7 @@ export default function JobListPage() {
             <div className="mb-4">
               <h1 className="text-lg font-semibold text-gray-900">求人一覧</h1>
               <div className="mt-1 text-xs text-gray-600">
-                総件数: {jobs.length}件
+                総件数: {totalJobCount}件
               </div>
             </div>
 

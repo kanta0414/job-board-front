@@ -20,8 +20,8 @@ export default function FiltersSidebar(props: {
   } = props
 
   return (
-    <aside className="w-[260px] shrink-0 border-r border-gray-200 bg-slate-100">
-      <div className="p-4">
+    <aside className="flex min-h-full w-[260px] shrink-0 flex-col border-r border-gray-200 bg-slate-100">
+      <div className="flex flex-1 flex-col p-4">
         <h2 className="mb-3 text-sm font-semibold text-gray-900">求人カテゴリ</h2>
 
         <div className="mb-5">

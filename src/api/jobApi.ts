@@ -141,7 +141,16 @@ function normalizeJobsResponse(raw: unknown, fallbackPage: number, fallbackPerPa
 
   const perPage = readNumber(r.perPage ?? r.limit ?? r.pageSize) ?? fallbackPerPage
 
-  const totalCount = readNumber(r.totalCount ?? r.total ?? r.count ?? r.totalRecords)
+  const readNestedTotal = (obj: unknown): number | undefined => {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return undefined
+    const o = obj as Record<string, unknown>
+    return readNumber(o.totalCount ?? o.total ?? o.count ?? o.totalRecords)
+  }
+
+  const totalCount =
+    readNumber(r.totalCount ?? r.total ?? r.count ?? r.totalRecords) ??
+    readNestedTotal(r.meta) ??
+    readNestedTotal(r.data)
 
   const totalPagesCandidate = readNumber(r.totalPages ?? r.pageCount)
   const totalPages =
