@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom'
 export default function TopNav() {
   return (
     <header className="w-full bg-slate-800 text-white">
-      <div className="mx-auto flex w-full max-w-[1126px] items-center justify-between px-4 py-3">
+      <div className="flex w-full items-center justify-between py-3">
         <div className="text-lg font-semibold tracking-tight">求人検索アプリ</div>
-        <nav className="flex items-center gap-4 text-sm">
+        <nav className="flex items-center gap-4 pr-4 text-sm">
           <NavLink
             to="/"
             className={({ isActive }) =>
